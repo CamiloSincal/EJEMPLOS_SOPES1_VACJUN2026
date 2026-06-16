@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ej3-dp
+  labels:
+    app: ej3
+    type: front-end
+spec:
+  template:
+    metadata:
+      name: ej3-pod
+      labels:
+        app: ej3
+        type: front-end
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:1.17.3
+  replicas: 4
+  selector:
+    #matchLabels define qué pods debe gestionar el Deployment,
+    #actuando como un selector que busca Pods con
+    #etiquetas especificas [Deben coincidir con los pods de template]
+    matchLabels:
+      type: front-end
+      app: ej3

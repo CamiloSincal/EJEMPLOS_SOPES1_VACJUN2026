@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mi-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mi-app
+  template:
+    metadata:
+      labels:
+        app: mi-app
+    spec:
+      containers:
+      - name: mi-app
+        image: nginx:stable-alpine
+        ports:
+        - containerPort: 80
+
+        # --- Opción A: variables de entorno individuales desde el ConfigMap ---
+        env:
+        - name: APP_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: APP_ENV
+        - name: APP_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: APP_PORT
+
+        # --- Opción B: todas las claves del ConfigMap como variables de entorno ---
+        envFrom:
+        - configMapRef:
+            name: app-config
+
+        # --- Opción C: montar el ConfigMap como archivos en un volumen ---
+        volumeMounts:
+        - name: config-vol
+          mountPath: /etc/nginx/conf.d        # cada clave se convierte en un archivo
+          readOnly: true
+
+      volumes:
+      - name: config-vol
+        configMap:
+          name: app-config-files
+          items:
+          - key: nginx.conf
+            path: default.conf              # nombre del archivo resultante en el pod

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodeport-service
+spec:
+  type: NodePort
+  ports:
+    # Nginx escucha en 80
+    - targetPort: 80
+      port: 80        # Puerto del servicio
+      nodePort: 30200  # Puerto para exponer el nodo
+  selector:
+    app: ej1-pod

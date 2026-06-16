@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: ej2-rc
+  labels:
+    app: ej2
+    type: front-end
+
+# Acá se indica el pod que se va a usar
+spec:
+  template:
+    metadata:
+      name: ej2-pod
+      labels:
+        app: ej2
+        type: front-end
+
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:latest
+        ports:
+  replicas: 3
