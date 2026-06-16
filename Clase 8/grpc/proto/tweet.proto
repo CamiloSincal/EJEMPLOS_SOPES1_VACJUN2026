@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option go_package = "/proto";
+
+package tweet;
+
+// Mensaje que representa un Tweet
+message Tweet {
+  int32  id      = 1;
+  string autor   = 2;
+  string mensaje = 3;
+}
+
+// Petición para crear un tweet
+message CrearTweetRequest {
+  string autor   = 1;
+  string mensaje = 2;
+}
+
+// Respuesta al crear un tweet
+message CrearTweetResponse {
+  Tweet tweet   = 1;
+  string status = 2;
+}
+
+// Petición para obtener un tweet por ID
+message ObtenerTweetRequest {
+  int32 id = 1;
+}
+
+// Respuesta con el tweet encontrado
+message ObtenerTweetResponse {
+  Tweet tweet   = 1;
+  string status = 2;
+}
+
+// Definición del servicio gRPC
+service TweetService {
+  rpc CrearTweet   (CrearTweetRequest)   returns (CrearTweetResponse);
+  rpc ObtenerTweet (ObtenerTweetRequest) returns (ObtenerTweetResponse);
+}
