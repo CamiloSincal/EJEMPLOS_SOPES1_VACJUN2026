@@ -2,7 +2,7 @@
 
 El siguiente repositorio cuenta con ejemplos relacionados a los temas vistos dentro del laboratorio de *Sistemas Operativos 1* de la Universidad de San Carlos de Guatemala, los cuáles buscan guiar a los estudiantes paso a paso en la parte práctica del curso.
 
-> **NOTA:** Estos ejemplos están actualizados hasta el pensum de estudios de junio de 2026. Por la naturaleza de cambio constante del curso y la licenciatura es posible que en un futuro existan temas o tecnologías que este repositorio abarca.
+> **NOTA:** Estos ejemplos están actualizados hasta el pensum de estudios de junio de 2026. Por la naturaleza de cambio constante del curso y la licenciatura es posible que en un futuro existan temas o tecnologías que este repositorio no abarca.
 
 ## Stack de Tecnologías del curso
 
