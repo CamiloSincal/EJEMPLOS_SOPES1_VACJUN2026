@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: configure-insecure-registry
+spec:
+  selector:
+    matchLabels:
+      app: configure-insecure-registry
+  template:
+    metadata:
+      labels:
+        app: configure-insecure-registry
+    spec:
+      hostPID: true
+      initContainers:
+        - name: configure
+          image: alpine
+          command:
+            - sh
+            - -c
+            - |
+              mkdir -p /host-containerd/34.170.20.207:5000
+              cat > /host-containerd/34.170.20.207:5000/hosts.toml << 'EOF'
+              server = "http://34.170.20.207:5000"
+              [host."http://34.170.20.207:5000"]
+                capabilities = ["pull", "resolve"]
+                skip_verify = true
+              EOF
+              nsenter --mount=/proc/1/ns/mnt -- systemctl restart containerd
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: containerd-config
+              mountPath: /host-containerd
+      containers:
+        - name: pause
+          image: gcr.io/google-containers/pause:3.1
+      volumes:
+        - name: containerd-config
+          hostPath:
+            path: /etc/containerd/certs.d

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rust-api-service
+spec:
+  selector:
+    app: rust-api       # Apunta a los pods del Deployment
+  ports:
+    - port: 80          # Puerto que expone el Service dentro del clúster
+      targetPort: 8080  # Puerto donde escucha el contenedor Rust
+  type: ClusterIP       # Solo accesible internamente — el Gateway API enruta hacia aquí

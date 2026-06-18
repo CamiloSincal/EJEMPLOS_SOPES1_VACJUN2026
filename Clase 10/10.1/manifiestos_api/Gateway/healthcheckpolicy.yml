@@ -1,0 +1,14 @@
+apiVersion: networking.gke.io/v1
+kind: HealthCheckPolicy
+metadata:
+  name: rust-api-healthcheck
+spec:
+  targetRef:
+    group: ""
+    kind: Service
+    name: rust-api-service
+  default:
+    config:
+      type: HTTP
+      httpHealthCheck:
+        requestPath: /health
