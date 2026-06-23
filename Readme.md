@@ -42,4 +42,4 @@ El siguiente repositorio cuenta con ejemplos relacionados a los temas vistos den
 
 - **[Clase 10:](./Clase%2010/)** Contiene un ejemplo de carga y despliegue con Locust, Gateway API y una API REST en Rust para GKE a través de un registro de ZOT, además de un subejemplo de k3s para pruebas locales. 
 
-- **[Clase 10:](./Clase%2011/)** Explicación e implementación de RabbitMQ en clúster de kubernetes y su implementación con código de go puro y a través de Dapr.
+- **[Clase 11:](./Clase%2011/)** Explicación e implementación de RabbitMQ en clúster de kubernetes y su implementación con código de go puro y a través de Dapr.
