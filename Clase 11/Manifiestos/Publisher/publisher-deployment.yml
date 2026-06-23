@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-publisher
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq-publisher
+  template:
+    metadata:
+      labels:
+        app: rabbitmq-publisher
+    spec:
+      containers:
+      - name: publisher
+        image: <DIRECCION-ZOT>/<IMAGEN>
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        env:
+        - name: RABBITMQ_URL
+          value: "amqp://guest:guest@rabbitmq-cluster.rabbitmq-system.svc.cluster.local:5672/"
+        - name: RABBITMQ_QUEUE
+          value: "hello"
+        - name: RABBITMQ_MESSAGE
+          value: "Hola desde Kubernetes RabbitMQ publisher"
+        - name: PUBLISH_INTERVAL_SECONDS
+          value: "15"
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 20
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
+      restartPolicy: Always

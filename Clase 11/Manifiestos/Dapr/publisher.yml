@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: publisher
+  name: publisher
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: publisher
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: publisher
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "publisher"
+        dapr.io/app-port: "4500"
+        dapr.io/enable-api-logging: "true"
+    spec:
+      containers:
+      - image: <DIRECCION-ZOT>/<IMAGEN>
+        name: dapr-go-publisher
+        ports:
+        - containerPort: 4500
+        env:
+        - name: APP_PORT
+          value: "4500"
+        - name: PUBSUB_NAME
+          value: "message-pub-sub"
+        - name: TOPIC_NAME
+          value: "messages"
+        resources: {}
+status: {}
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: publisher
+  labels:
+    app: publisher
+spec:
+  selector:
+    app: publisher
+  ports:
+  - protocol: TCP
+    port: 4500
+    targetPort: 4500
+  type: ClusterIP

@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: subscriber
+  name: subscriber
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: subscriber
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: subscriber
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "subscriber"
+        dapr.io/app-port: "6002"
+        dapr.io/enable-api-logging: "true"
+    spec:
+      containers:
+      - image: <DIRECCION-ZOT>/<IMAGEN>
+        ports:
+        - containerPort: 6002
+        env:
+        - name: PUBSUB_NAME
+          value: "message-pub-sub"
+        - name: TOPIC_NAME
+          value: "messages"
+        resources: {}
+status: {}
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: subscriber
+  labels:
+    app: subscriber
+spec:
+  selector:
+    app: subscriber
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 6002
+  type: ClusterIP

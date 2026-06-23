@@ -1,0 +1,33 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: message-pub-sub
+spec:
+  type: pubsub.rabbitmq
+  version: v1
+  metadata:
+  - name: connectionString
+    value: "amqp://guest:guest@rabbitmq-cluster.rabbitmq-system.svc.cluster.local:5672/"
+  - name: protocol
+    value: amqp  
+  - name: username
+    value: 'RABBITMQ_USER'
+  - name: password
+    value: 'RABBITMQ_PASSWORD'
+  - name: hostname
+    value: mycluster
+  - name: durable
+    value: "true"
+  - name: maxLen
+    value: 20
+  - name: deletedWhenUnused
+    value: "false"
+  - name: autoAck
+    value: "false"
+  - name: reconnectWait
+    value: "0"
+  - name: concurrency
+    value: parallel
+scopes:
+  - publisher
+  - subscriber
